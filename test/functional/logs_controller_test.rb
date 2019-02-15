@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../test_helper')
 
 class LogsControllerTest < ActionController::TestCase
   fixtures :projects, :users, :roles, :members
-  LOGDIR = "#{Rails.root.to_s}/log"
+  LOGDIR = "#{Rails.root}/log"
   def setup
     @request    = ActionController::TestRequest.new
     @request.session[:user_id] = 1
