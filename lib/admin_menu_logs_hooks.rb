@@ -3,7 +3,7 @@ module RedminePluginWithAssets
     class AdminMenuLogsHooks < Redmine::Hook::ViewListener
       include ActionView::Helpers::TagHelper
 
-      def view_layouts_base_html_head(context = {})
+      def view_layouts_base_html_head(_context = {})
         stylesheet_link_tag('logs', :plugin => 'redmine_logs')
       end
     end

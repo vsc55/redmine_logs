@@ -23,7 +23,7 @@ class LogsController < ApplicationController
 
   include RedmineLogs::LogFile
 
-  LOGDIR = "#{Rails.root.to_s}/log"
+  LOGDIR = "#{Rails.root}/log"
 
   def index
     @logs = log_list(LOGDIR)
@@ -57,7 +57,7 @@ class LogsController < ApplicationController
   private
   def log_list(path)
     logs = []
-    Dir::foreach(path) do |v|
+    Dir.foreach(path) do |v|
       next if v.start_with?('.') #exlude special path (. and ..) and hidden directories
       if path =~ /\/$/
         v = path + v
@@ -65,7 +65,7 @@ class LogsController < ApplicationController
         v = path + "/" + v
       end
 
-      if FileTest::directory?(v)
+      if FileTest.directory?(v)
         logs = logs + log_list(v)
       else
         logs << LogFile.new(v)
@@ -86,15 +86,15 @@ class LogsController < ApplicationController
   # copy from http://www.hirax.net/diaryweb/2010/03/02.html
   def tail(filename,readLength)
     ary=[]
-    f=File.open(filename)
-    begin
-      f.seek(-readLength,IO::SEEK_END)
-    rescue
+    File.open(filename) do |f|
+		begin
+			f.seek(-readLength,IO::SEEK_END)
+		rescue
+		end
+		while f.gets
+			ary<<$_
+		end
     end
-    while f.gets
-      ary<<$_
-    end
-    f.close
     return ary
   end
 
